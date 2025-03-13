@@ -1,4 +1,4 @@
-package display;
+package org.example.display;
 
 public enum UserTypes {
     READER(1),
