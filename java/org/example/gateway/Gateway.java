@@ -1,4 +1,4 @@
-package gateway;
+package org.example.gateway;
 
 import java.util.HashMap;
 import java.util.Map;
