@@ -1,15 +1,17 @@
 package org.example.notifications;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Notifications {
-    private static  Map<String, Map<String, Map<String, String>>> notificationsCache = null;
+    private static  Map<String, Map<String, List<Map<String, String>>>> notificationsCache = null;
 
-    public static Map<String, Map<String, Map<String, String>>> getNotificationsCache() {
+    public static Map<String, Map<String, List<Map<String, String>>>> getNotificationsCache() {
         return notificationsCache;
     }
-    public static void setNotificationsCache(Map<String, Map<String, Map<String, String>>> notificationsCache) {
+    public static void setNotificationsCache(Map<String, Map<String, List<Map<String, String>>>> notificationsCache) {
         Notifications.notificationsCache = notificationsCache;
     }
 
@@ -17,11 +19,12 @@ public class Notifications {
         Notifications.setNotificationsCache(NotificationsDataManager.readNotificationData());
     }
 
-    public static Map<String, String> getNotificationsByUsername(String username, Integer role) {
-        Map<String, Map<String, Map<String, String>>> users = getNotificationsCache();
-        Map<String, Map<String, String>> userNotifications;
-        Map<String, String> userRoleNotifications = null;
+    public static List<Map<String, String>> getNotificationsByUsername(String username, Integer role) { // Falta adaptar para lista
+        Map<String, Map<String, List<Map<String, String>>>> users = getNotificationsCache();
+        Map<String, List<Map<String, String>>> userNotifications;
+        List<Map<String, String>> userRoleNotifications = null;
 
+        List<Map<String, String>> errorList = new ArrayList<>();
         Map<String, String> error = new HashMap<>();
 
 
@@ -31,11 +34,13 @@ public class Notifications {
                 userRoleNotifications = userNotifications.get(role.toString());
             } else {
                 error.put("ERROR", "The role does not allow");
-                userRoleNotifications = error;
+                errorList.add(error);
+                userRoleNotifications = errorList;
             }
         } else {
             error.put("ERROR", "User does not exist");
-            userRoleNotifications = error;
+            errorList.add(error);
+            userRoleNotifications = errorList;
         }
         return userRoleNotifications;
     }

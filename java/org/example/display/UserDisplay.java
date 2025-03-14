@@ -3,6 +3,7 @@ package org.example.display;
 import org.example.notifications.Notifications;
 import org.example.utilities.InputUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ public class UserDisplay {
     public UserDisplay() {}
 
     public void displayNotifications(String username, Integer role) {
-        Map<String, String> notification = Notifications.getNotificationsByUsername(username, role);
+        List<Map<String, String>> userRoleNotifications = Notifications.getNotificationsByUsername(username, role);
     }
 
     public void runInterface() {

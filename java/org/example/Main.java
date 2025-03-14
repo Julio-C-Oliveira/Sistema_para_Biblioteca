@@ -16,5 +16,6 @@ public class Main {
 
         //display.runInterface();
         Notifications.keepNotifications();
+        System.out.println(Notifications.getNotificationsByUsername("VIKTOR", 1));
     }
 }
