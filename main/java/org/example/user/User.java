@@ -1,6 +1,6 @@
-package user;
+package org.example.user;
 
-import display.UserTypes;
+import org.example.display.UserTypes;
 
 public class User {
     private String name;

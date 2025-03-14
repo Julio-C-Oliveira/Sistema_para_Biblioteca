@@ -1,8 +1,8 @@
-package database.User;
+package org.example.database.User;
+
+import org.example.database.DatabaseConnection;
 
 import java.sql.SQLException;
-
-import database.DatabaseConnection;
 
 public class DeleteUser {
     public static void delete(int id){

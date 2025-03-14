@@ -1,18 +1,17 @@
-package database.User;
+package org.example.database.User;
+
+import org.example.database.DatabaseConnection;
 
 import java.sql.Connection;
-import java.sql.Statement;
-
-import database.DatabaseConnection;
-
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class CreateUserTable {
     public static void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS user (" +
                 "	id INTEGER PRIMARY KEY," +
                 "	name text NOT NULL," +
-                "	type text NOT NULL," +
+                "	role text NOT NULL," +
                 "   password text NOT NULL" +
                 ");"
         ;

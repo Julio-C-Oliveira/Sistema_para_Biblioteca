@@ -1,10 +1,10 @@
-package database;
+package org.example.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    public static String url = "jdbc:sqlite:/database/db.db";
+    public static String url = "jdbc:sqlite:db.db";
     
     public static Connection connect() {
         Connection conn = null;
