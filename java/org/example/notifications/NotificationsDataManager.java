@@ -1,5 +1,6 @@
 package org.example.notifications;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.example.Main;
@@ -71,7 +72,7 @@ public class NotificationsDataManager {
         return notifications;
     }
 
-    static public Map<String, Map<String, List<Map<String, String>>>> readNotificationData(){ // falta adaptar para o modo atual de lista
+    static public Map<String, Map<String, List<Map<String, String>>>> readNotificationData(){
         Map<String, Map<String, List<Map<String, String>>>> users = null;
 
         try {
@@ -91,17 +92,18 @@ public class NotificationsDataManager {
         return users;
     }
 
-    public static void addNotification(String user, String role, String messageTitle, String messageContent) { // falta adaptar para o modo atual de lista
+    public static void addNotification(String user, String role, String messageTitle, String messageContent) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // Para salvar o JSON formatado
 
-        Map<String, Map<String, Map<String, String>>> users;
+        Map<String, Map<String, List<Map<String, String>>>> users;
 
         File file = new File(NotificationsDataManager.notificationDataPath);
+
         try {
             // Verifica se o arquivo JSON existe
             if (file.exists()) {
-                users = objectMapper.readValue(file, Map.class);
+                users = objectMapper.readValue(file, new TypeReference<Map<String, Map<String, List<Map<String, String>>>>>() {});
             } else {
                 users = new HashMap<>();
             }
@@ -110,10 +112,14 @@ public class NotificationsDataManager {
             users.putIfAbsent(user, new HashMap<>());
 
             // Se o tipo de usuário ainda não existe, adiciona um novo
-            users.get(user).putIfAbsent(role, new HashMap<>());
+            users.get(user).putIfAbsent(role, new ArrayList<>());
 
-            // Adiciona a notificação ao tipo do usuário
-            users.get(user).get(role).put(messageTitle, messageContent);
+            // Cria a nova notificação
+            Map<String, String> notification = new HashMap<>();
+            notification.put(messageTitle, messageContent);
+
+            // Adiciona a notificação na lista correspondente a role
+            users.get(user).get(role).add(notification);
 
             // Salva as mudanças no arquivo JSON
             objectMapper.writeValue(file, users);
@@ -123,56 +129,57 @@ public class NotificationsDataManager {
         }
     }
 
-    public static void removerNotificacao(String usuario, String tipo, String titulo) { // falta adaptar para o modo atual de lista
+    public static String removeNotification(String user, String type, String title) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         File file = new File(NotificationsDataManager.notificationDataPath);
         if (!file.exists()) {
-            System.out.println("Arquivo JSON não encontrado.");
-            return;
+            return "JSON file not found.";
         }
 
         try {
             // Lê o JSON do arquivo
-            Map<String, Map<String, Map<String, String>>> users = objectMapper.readValue(file, Map.class);
+            Map<String, Map<String, List<Map<String, String>>>> users = objectMapper.readValue(file, new TypeReference<Map<String, Map<String, List<Map<String, String>>>>>() {});
 
             // Verifica se o usuário existe
-            if (users.containsKey(usuario)) {
-                Map<String, Map<String, String>> role = users.get(usuario);
+            if (users.containsKey(user)) {
+                Map<String, List<Map<String, String>>> roles = users.get(user);
 
-                // Verifica se o tipo de usuário existe
-                if (role.containsKey(tipo)) {
-                    Map<String, String> notification = role.get(tipo);
+                // Verifica se a role existe
+                if (roles.containsKey(type)) {
+                    List<Map<String, String>> notifications = roles.get(type);
 
-                    // Remove a notificação específica
-                    if (notification.containsKey(titulo)) {
-                        notification.remove(titulo);
+                    // Remove a notificação com o título correspondente
+                    boolean removed = notifications.removeIf(notification -> notification.containsKey(title));
 
-                        // Se não houver mais notificações no tipo, remove o tipo
-                        if (notification.isEmpty()) {
-                            role.remove(tipo);
+                    if (removed) {
+                        // Se não houver mais notificações na role, remove a role
+                        if (notifications.isEmpty()) {
+                            roles.remove(type);
                         }
 
-                        // Se não houver mais tipos, remove o usuário
-                        if (role.isEmpty()) {
-                            users.remove(usuario);
+                        // Se não houver mais roles, remove o usuário
+                        if (roles.isEmpty()) {
+                            users.remove(user);
                         }
 
                         // Salva as mudanças no arquivo JSON
                         objectMapper.writeValue(file, users);
+                        return "Notification successfully removed";
                     } else {
-                        System.out.println("Notificação não encontrada.");
+                       return "Notification not found";
                     }
                 } else {
-                    System.out.println("Tipo de usuário não encontrado.");
+                    return "User type not found";
                 }
             } else {
-                System.out.println("Usuário não encontrado.");
+                return "User not found";
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+            return "ERROR";
         }
     }
 }

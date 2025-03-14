@@ -15,11 +15,11 @@ public class Notifications {
         Notifications.notificationsCache = notificationsCache;
     }
 
-    public static void keepNotifications() {
+    public static void loadToMemory() {
         Notifications.setNotificationsCache(NotificationsDataManager.readNotificationData());
     }
 
-    public static List<Map<String, String>> getNotificationsByUsername(String username, Integer role) { // Falta adaptar para lista
+    public static List<Map<String, String>> getNotificationsByUsername(String username, Integer role) {
         Map<String, Map<String, List<Map<String, String>>>> users = getNotificationsCache();
         Map<String, List<Map<String, String>>> userNotifications;
         List<Map<String, String>> userRoleNotifications = null;
@@ -43,5 +43,9 @@ public class Notifications {
             userRoleNotifications = errorList;
         }
         return userRoleNotifications;
+    }
+
+    public static String removeNotificationsByUsernameAndTitle(String user, String type, String title) {
+        return NotificationsDataManager.removeNotification(user, type, title);
     }
 }

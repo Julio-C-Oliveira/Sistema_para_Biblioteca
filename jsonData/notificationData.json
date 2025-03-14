@@ -81,16 +81,17 @@
   "VIKTOR" : {
     "1" : [ {
       "Sugestão" : "Continue em busca da gloriosa evolução, THE GLORIOUS EVOLUTION"
-
-    },
-      {
-        "Bem-Vindo" : "Você já procurou hotel na internet hoje?"
-      }
-    ]
+    }, {
+      "Bem-Vindo" : "Você já procurou hotel na internet hoje?"
+    }, {
+      "Cura meu pai ai na moral" : "Meu parceiro poderia por obséquio trazer a humanidade de meu pai que virou um lobo pidão de volta?"
+    } ]
   },
   "AYAME" : {
     "1" : [ {
       "Sugestão" : "Reintegre a organização."
+    }, {
+      "ZA WARUDO" : "TOKI WO TOMARIIIIIIIIIIIIIIIIIIIIIIIIIi"
     } ]
   },
   "LARISSA" : {

@@ -34,7 +34,7 @@ public class InputUtils {
             System.out.print(text);
             username = scanner.nextLine();
             if (InputUtils.isValidUppercaseString(username.toUpperCase())) {
-                return username;
+                return username.toUpperCase();
             }
         }
     }
