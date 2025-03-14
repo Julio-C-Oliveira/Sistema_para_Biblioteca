@@ -11,6 +11,7 @@ public class DatabaseConnection {
         
         try {
             conn = DriverManager.getConnection(url);
+            conn.createStatement().execute("PRAGMA busy_timeout = 3000;");
             System.out.println("Database connected.");
             
         } catch (SQLException e) {

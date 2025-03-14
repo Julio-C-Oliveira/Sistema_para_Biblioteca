@@ -12,6 +12,7 @@ public class DeleteUser {
              var pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
+            System.out.println("User successfully deleted");
 
             // execute the delete statement
             pstmt.executeUpdate();
@@ -19,5 +20,6 @@ public class DeleteUser {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        System.out.println("User not found");
     }
 }

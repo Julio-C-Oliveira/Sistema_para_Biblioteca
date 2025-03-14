@@ -6,7 +6,9 @@ import org.example.Main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NotificationsDataManager {
@@ -20,7 +22,7 @@ public class NotificationsDataManager {
         ObjectMapper objectMapper = new ObjectMapper();
 
         // Mapa de usuários e suas notificações
-        Map<String, Map<String, Map<String, String>>> users = new HashMap<>();
+        Map<String, Map<String, List<Map<String, String>>>> users = new HashMap<>();
 
         // Adicionando os usuários e suas notificações
         users.put("ANA", createNotifications("1", "Bem-vindo", "Seu cadastro como leitor foi aprovado."));
@@ -55,18 +57,22 @@ public class NotificationsDataManager {
         }
     }
 
-    private static Map<String, Map<String, String>> createNotifications(String... args) {
-        Map<String, Map<String, String>> notifications = new HashMap<>();
+    private static Map<String, List<Map<String, String>>> createNotifications(String... args) {
+        Map<String, List<Map<String, String>>> notifications = new HashMap<>();
+
         for (int i = 0; i < args.length; i += 3) {
             Map<String, String> notificationDetails = new HashMap<>();
+            List<Map<String, String>> notificationDetailsList = new ArrayList<>();
+
             notificationDetails.put(args[i + 1], args[i + 2]);
-            notifications.put(args[i], notificationDetails);
+            notificationDetailsList.add(notificationDetails);
+            notifications.put(args[i], notificationDetailsList);
         }
         return notifications;
     }
 
-    static public Map<String, Map<String, Map<String, String>>> readNotificationData(){
-        Map<String, Map<String, Map<String, String>>> users = null;
+    static public Map<String, Map<String, List<Map<String, String>>>> readNotificationData(){ // falta adaptar para o modo atual de lista
+        Map<String, Map<String, List<Map<String, String>>>> users = null;
 
         try {
             // Caminho do arquivo JSON
@@ -85,7 +91,7 @@ public class NotificationsDataManager {
         return users;
     }
 
-    public static void addNotification(String user, String role, String messageTitle, String messageContent) {
+    public static void addNotification(String user, String role, String messageTitle, String messageContent) { // falta adaptar para o modo atual de lista
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // Para salvar o JSON formatado
 
@@ -117,7 +123,7 @@ public class NotificationsDataManager {
         }
     }
 
-    public static void removerNotificacao(String usuario, String tipo, String titulo) {
+    public static void removerNotificacao(String usuario, String tipo, String titulo) { // falta adaptar para o modo atual de lista
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 

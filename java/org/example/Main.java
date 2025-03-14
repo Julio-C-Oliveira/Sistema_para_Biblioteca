@@ -1,16 +1,16 @@
 package org.example;
 
+import org.example.database.User.*;
 import org.example.display.UserDisplay;
 import org.example.login.Login;
 import org.example.notifications.Notifications;
-import org.example.notifications.NotificationsDataManager;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Main {
-    public final static String basePath = "/home/juliocoliveira/IdeaProjects/Sistema_para_Biblioteca_Gradle/src/";
+    public final static String basePath = "~/IdeaProjects/Sistema_para_Biblioteca_Gradle/src/";
 
     public static void main(String[] args) throws IOException {
         // CORRIGIR BUD DO ID
@@ -18,29 +18,32 @@ public class Main {
 
         CreateUserTable.createTable();
         // Criando alguns participantes
-        InsertUser.create("Savio", UserTypes.LIBRARIAN, "bacuri");
-        InsertUser.create("Julio", UserTypes.MANAGER, "goiaba");
-        InsertUser.create("Luiz", UserTypes.READER, "maracuja");
-        InsertUser.create("Reginaldo", UserTypes.READER, "maca");
-        InsertUser.create("Yuri", UserTypes.READER, "pera");
+        InsertUser.create("Savio", 2, "bacuri");
+        InsertUser.create("Julio", 1, "goiaba");
+        InsertUser.create("Luiz", 3, "cupuacu");
+        InsertUser.create("Reginaldo", 3, "maca");
+        InsertUser.create("Yuri", 3, "pera");
 
         // Testando atualização de participante
-        UpdateUser.updateUser("Luiz", UserTypes.LIBRARIAN, "buriti");
+        System.out.println("Update:");
+        UpdateUser.updateUser("Yuri", "buriti");
 
         // Lendo participantes
 
-        UserDTO yuri = GetUser.getUser("Luiz");
-//        System.out.println(yuri.toString());
-//        UserDTO alguem = GetUser.getUser(3);
-//        System.out.println(alguem.toString());
-//
-//        // Testando deleção de participante
-//        DeleteUser.delete(4);
+         Map<String, String> yuri = GetUser.getUser("Yuri");
+         System.out.println(yuri.get("name"));
+
+         Map<String, String> alguem = GetUser.getUser(3);
+         System.out.println(alguem.get("role"));
+
+        // Testando deleção de participante
+         //DeleteUser.delete(4);
 //
         // Testando o "login"
         Login login = new Login();
         Map<String, String> user = Map.of(
                 "name", "Luiz",
+                "role", "1",
                 "password", "buriti"
         );
         if(login.validateLogin(user)){
@@ -49,10 +52,15 @@ public class Main {
             System.out.println("Login failed");
         }
 
-        UserDisplay display = new UserDisplay();
+        ArrayList<Map<String, String>> users = GetAllUsers.getAll();
+        for (Map<String, String> i : users) {
+            System.out.println(i.get("name"));
+        }
 
-        //display.runInterface();
-        Notifications.keepNotifications();
-        System.out.println(Notifications.getNotificationsByUsername("VIKTOR", 1));
+//        UserDisplay display = new UserDisplay();
+
+//        display.runInterface();
+//        Notifications.keepNotifications();
+//        System.out.println(Notifications.getNotificationsByUsername("VIKTOR", 1));
     }
 }
