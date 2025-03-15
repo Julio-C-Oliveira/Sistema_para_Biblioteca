@@ -27,7 +27,21 @@ public class Gateway {
         return userRoleNotifications;
     }
 
-    public Map<String, String> removeNotificationsByUsernameAndTitle(String user, String type, String title) {
-        return new HashMap<>();
+    public static Map<String, String> removeNotificationsByUsernameAndTitle(String user, String target, Integer userRole, Integer targetRole, String title) {
+        Map<String, String> response = new HashMap<>();
+
+        if (user.equals(target)) {
+            Notifications.removeNotificationsByUsernameAndTitle(target, targetRole.toString(), title);
+            response.put("SUCCESS", String.format("%s", title));
+        } else {
+            response.put("", "");
+            if (userRole == 3 || userRole == 2) {
+                Notifications.removeNotificationsByUsernameAndTitle(target, targetRole.toString(), title);
+                response.put("SUCCESS", String.format("%s", title));
+            } else {
+                response.put("ERROR", "User does not have permission to execute this command");
+            }
+        }
+        return response;
     }
 }

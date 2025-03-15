@@ -45,7 +45,7 @@ public class Notifications {
         return userRoleNotifications;
     }
 
-    public static String removeNotificationsByUsernameAndTitle(String user, String type, String title) {
-        return NotificationsDataManager.removeNotification(user, type, title);
+    public static String removeNotificationsByUsernameAndTitle(String user, String role, String title) {
+        return NotificationsDataManager.removeNotification(user, role, title);
     }
 }

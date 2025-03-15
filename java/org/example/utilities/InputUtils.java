@@ -49,4 +49,15 @@ public class InputUtils {
             }
         }
     }
+
+    public static String inputString(Scanner scanner, String text) {
+        String string;
+        while (true) {
+            System.out.print(text);
+            string = scanner.nextLine();
+            if (!string.trim().isEmpty()) {
+                return string;
+            }
+        }
+    }
 }

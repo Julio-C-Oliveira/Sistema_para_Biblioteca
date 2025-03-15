@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class UserDisplay {
+    private boolean state = true;
     private UserTypes userTypes = null;
 
     public UserDisplay() {}
@@ -20,6 +21,9 @@ public class UserDisplay {
             System.out.printf(printNotificationsModel + "\n", title, userNotification.get(title));
         }
         System.out.println();
+    }
+    public static void removeNotification(String username, String target, UserTypes userRole, UserTypes targetRole, String messageTitle) {
+        Gateway.removeNotificationsByUsernameAndTitle(username, target, userRole.getId(), targetRole.getId(), messageTitle);
     }
 
     public void runInterface() {
@@ -41,31 +45,38 @@ public class UserDisplay {
                 """
                         Selecione uma das funções abaixo:
                         [1] - Visualizar notificações.
-                        [2] - Verificar disponibilidade de livros.
-                        [3] - Visualizar resumos de livros.
-                        [4] - Visualizar pendências.
-                        [5] - Ver minha estante e prazos.
+                        [2] - Excluir notificação.
+                        [3] - Verificar disponibilidade de livros.
+                        [4] - Visualizar resumos de livros.
+                        [5] - Visualizar pendências.
+                        [6] - Ver minha estante e prazos.
+                        [7] - Logout.
                         Insira a sua escolha:\s""";
         String librarianFunctionsText =
                 """
                         Selecione uma das funções abaixo:
                         [1] - Visualizar notificações.
-                        [2] - Emprestar livro.
-                        [3] - Reservar livro.
-                        [4] - Verificar pendências de usuários.
+                        [2] - Excluir notificação.
+                        [3] - Emprestar livro.
+                        [4] - Reservar livro.
+                        [5] - Verificar pendências de usuários.
+                        [6] - Logout.
                         Insira a sua escolha:\s""";
         String managerFunctionsText =
                 """
                         Selecione uma das funções abaixo:
                         [1] - Visualizar notificações.
-                        [2] - Adicionar coleção.
-                        [3] - Excluir coleção.
-                        [4] - Editar coleção.
+                        [2] - Excluir notificação.
+                        [3] - Adicionar coleção.
+                        [4] - Excluir coleção.
+                        [5] - Editar coleção.
+                        [6] - Logout.
                         Insira a sua escolha:\s""";
         String printNotificationsModel =
                 """
                         Título: %s
                         Conteúdo: %s\s""";
+        String insertMessageTitleText = "Insira o titulo da notificação: ";
 
         // Iniciar variáveis
         boolean performClassSelection = true;
@@ -77,6 +88,7 @@ public class UserDisplay {
         int choiceFunction = 0;
         String username = "";
         String password = "";
+        String messageTitle = "";
 
         // Carregar os dados dos bancos
         Gateway.keepDatabasesToMemory();
@@ -106,34 +118,40 @@ public class UserDisplay {
         System.out.println();
         System.out.printf(loggedInText + "\n\n", role);
 
-        switch (role) {
-            case READER:
-                choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, readerFunctionsText, 1, 5);
-                System.out.println();
-                switch (choiceFunction) {
-                    case 1:
-                        UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
-                        break;
-                }
-                break;
-            case LIBRARIAN:
-                choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 4);
-                System.out.println();
-                switch (choiceFunction) {
-                    case 1:
-                        UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
-                        break;
-                }
-                break;
-            case MANAGER:
-                choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, managerFunctionsText, 1, 4);
-                System.out.println();
-                switch (choiceFunction) {
-                    case 1:
-                        UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
-                        break;
-                }
-                break;
+        while (this.state) {
+            switch (role) {
+                case READER:
+                    choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, readerFunctionsText, 1, 5);
+                    System.out.println();
+                    switch (choiceFunction) {
+                        case 1:
+                            UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
+                            break;
+                        case 2:
+                            messageTitle = InputUtils.inputString(scanner, insertMessageTitleText);
+                            UserDisplay.removeNotification(username, username, role, role, messageTitle);
+                            break;
+                    }
+                    break;
+                case LIBRARIAN:
+                    choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 4);
+                    System.out.println();
+                    switch (choiceFunction) {
+                        case 1:
+                            UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
+                            break;
+                    }
+                    break;
+                case MANAGER:
+                    choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, managerFunctionsText, 1, 4);
+                    System.out.println();
+                    switch (choiceFunction) {
+                        case 1:
+                            UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }
