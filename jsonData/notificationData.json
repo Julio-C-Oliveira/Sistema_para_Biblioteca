@@ -1,102 +1,96 @@
 {
   "KLEBER" : {
-    "1" : {
+    "1" : [ {
       "Notificação" : "Seu livro favorito foi renovado no catálogo."
-    }
+    } ]
   },
   "DANIELA" : {
-    "1" : {
+    "1" : [ {
       "Notificação" : "Seu livro reservado está pronto para retirada."
-    }
+    } ]
   },
   "IGOR" : {
-    "1" : {
+    "1" : [ {
       "Lembrete" : "Renovação de cadastro necessária."
-    }
+    } ]
   },
   "HELENA" : {
-    "2" : {
+    "2" : [ {
       "Dica" : "Organize os livros pelo novo sistema de cores."
-    }
+    } ]
   },
   "JULIANA" : {
-    "1" : {
+    "1" : [ {
       "Promoção" : "Ganhe pontos ao emprestar livros esta semana."
-    }
+    } ]
   },
   "GABRIEL" : {
-    "1" : {
+    "1" : [ {
       "Sugestão" : "Participe do clube de leitura este mês."
-    }
+    } ]
   },
   "BRUNO" : {
-    "1" : {
+    "1" : [ {
       "Lembrete" : "Devolução do livro '1984' vence amanhã."
-    },
-    "3" : {
+    } ],
+    "3" : [ {
       "Alerta" : "A biblioteca atingiu o limite de orçamento."
-    }
+    } ]
   },
   "FLAVINHODOPNEU" : {
-    "1" : {
+    "1" : [ {
       "Sugestão" : "Participe do fórum de leitura online."
-    }
+    } ]
   },
   "FERNANDA" : {
-    "1" : {
+    "1" : [ {
       "Promoção" : "Desconto de 10% em livros digitais."
-    }
+    } ]
   },
   "NATALIAROMANOFF" : {
-    "1" : {
+    "1" : [ {
       "Lembrete" : "O clube do livro começa às 19h."
-    }
+    } ]
   },
   "CARLOS" : {
-    "1" : {
+    "1" : [ {
       "Dica" : "Novos livros de ficção adicionados."
-    },
-    "2" : {
+    } ],
+    "2" : [ {
       "Aviso" : "Manutenção do sistema agendada para sexta."
-    },
-    "3" : {
+    } ],
+    "3" : [ {
       "Relatório" : "Análise de desempenho dos funcionários disponível."
-    }
+    } ]
   },
   "ANA" : {
-    "1" : {
+    "1" : [ {
       "Bem-vindo" : "Seu cadastro como leitor foi aprovado."
-    }
+    } ]
   },
   "EDUARDO" : {
-    "1" : {
+    "1" : [ {
       "Alerta" : "Seu livro emprestado vence hoje."
-    }
+    } ]
   },
   "MARCOS" : {
-    "2" : {
+    "2" : [ {
       "Informação" : "Chegada de novos audiolivros anunciada."
-    }
+    } ]
   },
   "VIKTOR" : {
-    "1" : {
+    "1" : [ {
       "Sugestão" : "Continue em busca da gloriosa evolução, THE GLORIOUS EVOLUTION"
-    }, {
-      "Bem-Vindo" : "Você já procurou hotel na internet hoje?"
-    }, {
-      "Cura meu pai ai na moral" : "Meu parceiro poderia por obséquio trazer a humanidade de meu pai que virou um lobo pidão de volta?"
     } ]
   },
   "AYAME" : {
-    "1" : {
+    "1" : [ {
       "Sugestão" : "Reintegre a organização."
-    }, {
-      "ZA WARUDO" : "TOKI WO TOMARIIIIIIIIIIIIIIIIIIIIIIIIIi"
-    }
+    } ]
   },
   "LARISSA" : {
-    "3" : {
+    "3" : [ {
       "Resumo" : "Visitas aumentaram 20% este mês."
-    }
+    } ]
   }
 }
