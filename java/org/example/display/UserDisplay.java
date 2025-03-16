@@ -18,6 +18,8 @@ public class UserDisplay {
 
     public static void displayNotifications(String username, String target, UserTypes userRole, UserTypes targetRole, String printNotificationsModel) {
         List<Map<String, String>> userRoleNotifications = Gateway.getNotificationsByUsername(username, target, userRole.getId(), targetRole.getId());
+        System.out.println();
+
         for (Map<String, String> userNotification : userRoleNotifications) {
             String title = userNotification.entrySet().iterator().next().getKey();
             System.out.printf(printNotificationsModel + "\n", title, userNotification.get(title));
@@ -40,8 +42,17 @@ public class UserDisplay {
                         [2] - Bibliotecário.
                         [3] - Gerente.
                         Insira a sua escolha:\s""";
+        String textSelectTargetType =
+                """
+                        Selecione a função do alvo abaixo:
+                        [1] - Leitor.
+                        [2] - Bibliotecário.
+                        [3] - Gerente.
+                        Insira a sua escolha:\s""";
         String usernameInputText =
                 "Insira o nome de usuário cadastrado: ";
+        String targetInputText =
+                "Insira o nome do usuário alvo cadastrado: ";
         String passwordInputText =
                 "Insira a senha cadastrada: ";
         String loggedInText =
@@ -89,14 +100,10 @@ public class UserDisplay {
 
         // Iniciar variáveis
         int choice = 0;
-        boolean performClassSelection = true;
-        boolean performLoginRequest = true;
         Scanner scanner = new Scanner(System.in);
         int[] validTypes = UserTypes.getValidRange();
-        boolean isValid = false;
         int choiceFunction = 0;
         String username = "";
-        String password = "";
         String messageTitle = "";
         Map<String, String> loginRequestMessage = new HashMap<>();
         Map<String, Object> serverLoginResponse = new HashMap<>();
@@ -117,7 +124,6 @@ public class UserDisplay {
             serverLoginResponse = Gateway.requestLogin(loginRequestMessage);
 
             userRoles = (List<Integer>) serverLoginResponse.get("roles");
-            isValid = (boolean) serverLoginResponse.get("isValid");
 
             if (userRoles.contains(choice) || (boolean) serverLoginResponse.get("isValid")) {
                 break;
@@ -125,6 +131,7 @@ public class UserDisplay {
             else System.out.println("Você não tem permissão para logar na função escolhida, ou errou os dados cadastrais. Tente novamente.");
         } while(true);
 
+        username = loginRequestMessage.get("name");
         UserTypes role = UserTypes.fromId(choice);
         System.out.println();
         System.out.printf(loggedInText + "\n\n", role);
@@ -149,7 +156,14 @@ public class UserDisplay {
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
-                            UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
+                            UserDisplay.displayNotifications(
+                                    username,
+                                    Utils.inputUser(scanner, targetInputText),
+                                    role,
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
+                            break;
+                        case 2:
+
                             break;
                     }
                     break;
@@ -158,7 +172,13 @@ public class UserDisplay {
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
-                            UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
+                            UserDisplay.displayNotifications(
+                                    username,
+                                    Utils.inputUser(scanner, targetInputText),
+                                    role,
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
+                            break;
+                        case 2:
                             break;
                     }
                     break;

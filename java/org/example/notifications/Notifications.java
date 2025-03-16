@@ -33,6 +33,9 @@ public class Notifications {
             if (userNotifications.containsKey(role.toString())) {
                 userRoleNotifications = userNotifications.get(role.toString());
             } else {
+                System.out.println(userNotifications);
+                System.out.println(role);
+                System.out.println(userNotifications.containsKey(role.toString()));
                 error.put("ERROR", "The role does not allow");
                 errorList.add(error);
                 userRoleNotifications = errorList;
