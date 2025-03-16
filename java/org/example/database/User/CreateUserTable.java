@@ -11,7 +11,6 @@ public class CreateUserTable {
         String sql = "CREATE TABLE IF NOT EXISTS user (" +
                 "	id INTEGER PRIMARY KEY," +
                 "	name text NOT NULL UNIQUE," + // Adicionando UNIQUE aqui
-                "	role int NOT NULL," +
                 "   password text NOT NULL" +
                 ");";
         try (Connection conn = DatabaseConnection.connect();
@@ -21,5 +20,6 @@ public class CreateUserTable {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("TABLE (USER): TABLE CREATED SUCCESSFULLY");
     }
 }

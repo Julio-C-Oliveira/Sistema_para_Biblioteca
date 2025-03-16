@@ -60,4 +60,17 @@ public class InputUtils {
             }
         }
     }
+
+    public static int[] stringToList(String input) {
+        String[] s1 = input.replaceAll("\\[", "")
+                .replaceAll("]", "").replaceAll("\\s", "")
+                .split(",");
+
+        int[] arr = new int[s1.length];
+
+        for (int i = 0; i < s1.length; i++) {
+            arr[i] = Integer.parseInt(s1[i]);
+        }
+        return arr;
+    }
 }

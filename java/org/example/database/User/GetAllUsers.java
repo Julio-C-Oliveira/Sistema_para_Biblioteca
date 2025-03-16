@@ -1,6 +1,7 @@
 package org.example.database.User;
 
 import org.example.database.DatabaseConnection;
+import org.example.database.Role.GetUserRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,21 +22,23 @@ public class GetAllUsers {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                int role = rs.getInt("role");
+                ArrayList<Integer> roles = GetUserRole.getUserRole(id);
                 String password = rs.getString("password");
                 Map<String, String> currentUser = Map.of(
                         "id", Integer.toString(id),
                         "name", name,
-                        "role", Integer.toString(role),
+                        "role", roles.toString(),
                         "password", password
                 );
                 users.add(currentUser);
             }
+
+            System.out.println("GETALL (USER): ALL USERS FOUND");
             return users;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-
-        return null; // Retorna null se não encontrar um usuário
+        System.out.println("GETALL (USER): NO USERS FOUND");
+        return null;
     }
 }

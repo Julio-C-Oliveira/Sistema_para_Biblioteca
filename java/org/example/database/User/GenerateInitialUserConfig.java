@@ -1,9 +1,13 @@
 package org.example.database.User;
 
+import org.example.database.Role.CreateUserRoleTable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static org.example.utilities.InputUtils.stringToList;
 
 
 public class GenerateInitialUserConfig {
@@ -30,8 +34,11 @@ public class GenerateInitialUserConfig {
 
     public void generateInitialConfig(){
         CreateUserTable.createTable();
+        CreateUserRoleTable.createTable();
+        System.out.println();
+
         if(checkInitConfig()){
-            System.out.println("Configurações já inicializadas");
+            System.out.println("CONFIGURAÇÕES JÁ INICIALIZADAS...");
             return;
         }
         Map<String, String> ana = Map.of(
@@ -54,6 +61,7 @@ public class GenerateInitialUserConfig {
                 "role", "1",
                 "password", "abcd"
         );
+
         Map<String, String> eduardo = Map.of(
                 "name", "EDUARDO",
                 "role", "1",
@@ -66,7 +74,7 @@ public class GenerateInitialUserConfig {
         );
         Map<String, String> gabriel = Map.of(
                 "name", "GABRIEL",
-                "role", "1",
+                "role", "[1,3]", // EXEMPLO DE USO DE MÚLTIPLAS ROLES
                 "password", "abcd"
         );
         Map<String, String> helena = Map.of(
@@ -76,7 +84,7 @@ public class GenerateInitialUserConfig {
         );
         Map<String, String> igor = Map.of(
                 "name", "IGOR",
-                "role", "1",
+                "role", "[2, 3]", // EXEMPLO DE USO DE MÚLTIPLAS ROLES
                 "password", "abcd"
         );
         Map<String, String> juliana = Map.of(
@@ -86,7 +94,7 @@ public class GenerateInitialUserConfig {
         );
         Map<String, String> kleber = Map.of(
                 "name", "KLEBER",
-                "role", "1",
+                "role", "[1, 2]", // EXEMPLO DE USO DE MÚLTIPLAS ROLES
                 "password", "abcd"
         );
         Map<String, String> larissa = Map.of(
@@ -139,7 +147,9 @@ public class GenerateInitialUserConfig {
         usersToAdd.add(viktor);
 
         for (Map<String, String> user: usersToAdd){
-            InsertUser.create(user.get("name"), Integer.parseInt(user.get("role")), user.get("password"));
+            int[] role = stringToList(user.get("role"));
+            InsertUser.create(user.get("name"), role, user.get("password"));
+            System.out.println();
         }
     }
 }
