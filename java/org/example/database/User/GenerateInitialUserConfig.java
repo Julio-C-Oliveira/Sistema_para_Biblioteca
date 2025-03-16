@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.example.utilities.InputUtils.stringToList;
+import static org.example.utilities.Utils.stringToList;
 
 
 public class GenerateInitialUserConfig {

@@ -1,10 +1,18 @@
 package org.example.gateway;
 
+import org.example.database.User.GenerateInitialUserConfig;
+import org.example.login.Login;
 import org.example.notifications.Notifications;
 
 import java.util.*;
 
 public class Gateway {
+    public static void startDatabases() {
+        GenerateInitialUserConfig initialUsers = new GenerateInitialUserConfig();
+
+        initialUsers.generateInitialConfig();
+    }
+
     public static void keepDatabasesToMemory() {
         Notifications.loadToMemory(); // Puxa as notificações para memória pra agilizar a utilização.
     }
@@ -43,5 +51,21 @@ public class Gateway {
             }
         }
         return response;
+    }
+
+    public static Map<String, Object> requestLogin(Map<String, String> loginRequestMessage) {
+        Map<String, Object> serviceResponse = new HashMap<>();
+
+        boolean isValid = Login.validateLogin(loginRequestMessage);
+
+        if (isValid) {
+            serviceResponse.put("isValid", isValid);
+            serviceResponse.put("roles", Login.getUserRoles(loginRequestMessage));
+        } else {
+            serviceResponse.put("isValid", false);
+            serviceResponse.put("roles", new ArrayList<>());
+        }
+
+        return serviceResponse;
     }
 }

@@ -25,7 +25,7 @@ public class GetUser {
             if (rs.next()) {
                 String name = rs.getString("name");
                 ArrayList<Integer> roles = GetUserRole.getUserRole(id);
-                System.out.println("GET (USER): USER FOUND");
+                //System.out.println("GET (USER): USER FOUND");
                 return Map.of(
                         "id", Integer.toString(id),
                         "name", name,
@@ -37,7 +37,7 @@ public class GetUser {
             System.err.println(e.getMessage());
         }
 
-        System.out.println("GET (USER): USER NOT FOUND");
+        //System.out.println("GET (USER): USER NOT FOUND");
         return null;
     }
 
@@ -54,7 +54,7 @@ public class GetUser {
             if (rs.next()) {
                 int id = rs.getInt("id");
                 ArrayList<Integer> roles = GetUserRole.getUserRole(id);
-                System.out.println("GET (USER): USER FOUND");
+                //System.out.println("GET (USER): USER FOUND");
                 return Map.of(
                         "id", Integer.toString(id),
                         "name", name,
@@ -66,7 +66,7 @@ public class GetUser {
             System.err.println(e.getMessage());
         }
 
-        System.out.println("GET (USER): USER NOT FOUND");
+        //System.out.println("GET (USER): USER NOT FOUND");
         return null;
     }
 

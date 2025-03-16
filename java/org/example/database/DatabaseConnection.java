@@ -12,7 +12,7 @@ public class DatabaseConnection {
         try {
             conn = DriverManager.getConnection(url);
             conn.createStatement().execute("PRAGMA busy_timeout = 3000;");
-            System.out.println("DATABASE CONNECTED");
+            //System.out.println("DATABASE CONNECTED");
             
         } catch (SQLException e) {
             System.err.println(e.getMessage());

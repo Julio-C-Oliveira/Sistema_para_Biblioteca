@@ -24,8 +24,8 @@ public class GetAllUsers {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 ArrayList<Integer> roles = GetUserRole.getUserRole(id);
-                System.out.println("TESTE TESTE");
-                System.out.println(roles.toString());
+                //System.out.println("TESTE TESTE");
+                //System.out.println(roles.toString());
                 String password = rs.getString("password");
                 Map<String, String> currentUser = Map.of(
                         "id", Integer.toString(id),
@@ -36,12 +36,12 @@ public class GetAllUsers {
                 users.add(currentUser);
             }
 
-            System.out.println("GETALL (USER): ALL USERS FOUND");
+            //System.out.println("GETALL (USER): ALL USERS FOUND");
             return users;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        System.out.println("GETALL (USER): NO USERS FOUND");
+        //System.out.println("GETALL (USER): NO USERS FOUND");
         return null;
     }
 }

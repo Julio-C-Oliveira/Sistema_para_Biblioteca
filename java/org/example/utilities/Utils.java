@@ -1,8 +1,11 @@
 package org.example.utilities;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-public class InputUtils {
+public class Utils {
     public static int validateIfInputIsAnIntAndIsInARange(Scanner scanner, String text, int start, int end) {
         int choiceInInt = Integer.MAX_VALUE;
         while (true) {
@@ -33,7 +36,7 @@ public class InputUtils {
         while (true) {
             System.out.print(text);
             username = scanner.nextLine();
-            if (InputUtils.isValidUppercaseString(username.toUpperCase())) {
+            if (Utils.isValidUppercaseString(username.toUpperCase())) {
                 return username.toUpperCase();
             }
         }
@@ -72,5 +75,9 @@ public class InputUtils {
             arr[i] = Integer.parseInt(s1[i]);
         }
         return arr;
+    }
+
+    public static List<Integer> arrayInStringToArray(String arrayInString) {
+        return Arrays.stream(arrayInString.replaceAll("[\\[\\]]", "").replaceAll(" ", "").split(",")).map(Integer::parseInt).collect(Collectors.toList());
     }
 }

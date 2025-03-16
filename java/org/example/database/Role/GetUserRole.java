@@ -21,16 +21,16 @@ public class GetUserRole {
 
             ArrayList<Integer> roles = new ArrayList<>();
             if (rs.next()) {
-                System.out.println("PASSANDO AQUUI??? " + rs.getInt("role"));
+                //System.out.println("PASSANDO AQUUI??? " + rs.getInt("role"));
                 roles.add(rs.getInt("role"));
             }
-            System.out.println("GET (USER_ROLE): ROLE(S) FOUND");
+            //System.out.println("GET (USER_ROLE): ROLE(S) FOUND");
             return roles;
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        System.out.println("GET (USER_ROLE): ROLE(S) NOT FOUND");
+        //System.out.println("GET (USER_ROLE): ROLE(S) NOT FOUND");
         return null;
     }
 }

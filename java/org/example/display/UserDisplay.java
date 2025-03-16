@@ -1,9 +1,11 @@
 package org.example.display;
 
 import org.example.gateway.Gateway;
+import org.example.login.Login;
 import org.example.notifications.Notifications;
-import org.example.utilities.InputUtils;
+import org.example.utilities.Utils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -86,62 +88,64 @@ public class UserDisplay {
                         Conteúdo: %s\s""";
 
         // Iniciar variáveis
+        int choice = 0;
         boolean performClassSelection = true;
         boolean performLoginRequest = true;
         Scanner scanner = new Scanner(System.in);
         int[] validTypes = UserTypes.getValidRange();
-        int roleID = 0;
         boolean isValid = false;
         int choiceFunction = 0;
         String username = "";
         String password = "";
         String messageTitle = "";
+        Map<String, String> loginRequestMessage = new HashMap<>();
+        Map<String, Object> serverLoginResponse = new HashMap<>();
+        List<Integer> userRoles = null;
 
+        // Criar o banco dedados
+        //Gateway.startDatabases();
         // Carregar os dados dos bancos
         Gateway.keepDatabasesToMemory();
 
         // Lógica
         do {
-            if (performClassSelection) {
-                int choice = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectUserType, validTypes[0], validTypes[1]);
+            choice = Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectUserType, validTypes[0], validTypes[1]);
 
-                username = InputUtils.inputUser(scanner, usernameInputText);
-                password = InputUtils.inputPassword(scanner, passwordInputText);
-            }
-            if (performLoginRequest) {
-                // -> Chamar a função de Login aqui <-, após receber as informações eu verifico a role e a confirmação de válidade que a função irá retornar, por enquanto vou utilizar essas variáveis.
-                roleID = 1;
-                isValid = true;
-            }
+            loginRequestMessage.put("name", Utils.inputUser(scanner, usernameInputText));
+            loginRequestMessage.put("password", Utils.inputPassword(scanner, passwordInputText));
 
-            if (isValid) {
-                performLoginRequest = false;
-                performClassSelection = false;
+            serverLoginResponse = Gateway.requestLogin(loginRequestMessage);
+
+            userRoles = (List<Integer>) serverLoginResponse.get("roles");
+            isValid = (boolean) serverLoginResponse.get("isValid");
+
+            if (userRoles.contains(choice) || (boolean) serverLoginResponse.get("isValid")) {
                 break;
             }
-        } while((performClassSelection || performLoginRequest) & !isValid);
+            else System.out.println("Você não tem permissão para logar na função escolhida, ou errou os dados cadastrais. Tente novamente.");
+        } while(true);
 
-        UserTypes role = UserTypes.fromId(roleID);
+        UserTypes role = UserTypes.fromId(choice);
         System.out.println();
         System.out.printf(loggedInText + "\n\n", role);
 
         while (this.state) {
             switch (role) {
                 case READER:
-                    choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, readerFunctionsText, 1, 5);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, readerFunctionsText, 1, 5);
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
                             UserDisplay.displayNotifications(username, username, role, role, printNotificationsModel);
                             break;
                         case 2:
-                            messageTitle = InputUtils.inputString(scanner, insertMessageTitleText);
+                            messageTitle = Utils.inputString(scanner, insertMessageTitleText);
                             UserDisplay.removeNotification(username, username, role, role, messageTitle, printRemoveNotificationsModel);
                             break;
                     }
                     break;
                 case LIBRARIAN:
-                    choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 4);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 4);
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
@@ -150,7 +154,7 @@ public class UserDisplay {
                     }
                     break;
                 case MANAGER:
-                    choiceFunction = InputUtils.validateIfInputIsAnIntAndIsInARange(scanner, managerFunctionsText, 1, 4);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, managerFunctionsText, 1, 4);
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:

@@ -12,7 +12,7 @@ import java.util.Map;
 public class UpdateUser {
     public static void updateUser(int id, int role) {
         UpdateUserRole.updateRole(id, role);
-        System.out.println("USER UPDATED SUCCESSFULLY");
+        //System.out.println("USER UPDATED SUCCESSFULLY");
     }
 
     public static void updateUser(int id, String password) {
@@ -27,7 +27,7 @@ public class UpdateUser {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        System.out.println("USER UPDATED SUCCESSFULLY");
+        //System.out.println("USER UPDATED SUCCESSFULLY");
     }
 
     public static void updateUser(String name, int role) {
@@ -50,7 +50,7 @@ public class UpdateUser {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        System.out.println("USER UPDATED SUCCESSFULLY");
+        //System.out.println("USER UPDATED SUCCESSFULLY");
 
     }
 }
