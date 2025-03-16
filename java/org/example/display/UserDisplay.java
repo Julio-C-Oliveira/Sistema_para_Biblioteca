@@ -180,7 +180,7 @@ public class UserDisplay {
                     }
                     break;
                 case LIBRARIAN:
-                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 4);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 5);
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
