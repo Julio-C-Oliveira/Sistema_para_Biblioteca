@@ -22,8 +22,11 @@ public class UserDisplay {
         }
         System.out.println();
     }
-    public static void removeNotification(String username, String target, UserTypes userRole, UserTypes targetRole, String messageTitle) {
-        Gateway.removeNotificationsByUsernameAndTitle(username, target, userRole.getId(), targetRole.getId(), messageTitle);
+    public static void removeNotification(String username, String target, UserTypes userRole, UserTypes targetRole, String messageTitle, String printRemoveNotificationsModel) {
+        Map<String, String> response = Gateway.removeNotificationsByUsernameAndTitle(username, target, userRole.getId(), targetRole.getId(), messageTitle);
+        String key = response.keySet().iterator().next();
+        Notifications.loadToMemory(); // Atualizar os dados em cache;
+        System.out.printf(printRemoveNotificationsModel + "\n", key, response.get(key));
     }
 
     public void runInterface() {
@@ -77,6 +80,10 @@ public class UserDisplay {
                         Título: %s
                         Conteúdo: %s\s""";
         String insertMessageTitleText = "Insira o titulo da notificação: ";
+        String printRemoveNotificationsModel =
+                """
+                        Resultado: %s
+                        Conteúdo: %s\s""";
 
         // Iniciar variáveis
         boolean performClassSelection = true;
@@ -129,7 +136,7 @@ public class UserDisplay {
                             break;
                         case 2:
                             messageTitle = InputUtils.inputString(scanner, insertMessageTitleText);
-                            UserDisplay.removeNotification(username, username, role, role, messageTitle);
+                            UserDisplay.removeNotification(username, username, role, role, messageTitle, printRemoveNotificationsModel);
                             break;
                     }
                     break;
