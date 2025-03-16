@@ -74,7 +74,7 @@ public class GenerateInitialUserConfig {
         );
         Map<String, String> gabriel = Map.of(
                 "name", "GABRIEL",
-                "role", "[1,3]", // EXEMPLO DE USO DE MÚLTIPLAS ROLES
+                "role", "[1,3]",
                 "password", "abcd"
         );
         Map<String, String> helena = Map.of(

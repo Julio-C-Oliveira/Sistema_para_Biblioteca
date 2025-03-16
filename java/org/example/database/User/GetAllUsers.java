@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class GetAllUsers {
@@ -23,11 +24,13 @@ public class GetAllUsers {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 ArrayList<Integer> roles = GetUserRole.getUserRole(id);
+                System.out.println("TESTE TESTE");
+                System.out.println(roles.toString());
                 String password = rs.getString("password");
                 Map<String, String> currentUser = Map.of(
                         "id", Integer.toString(id),
                         "name", name,
-                        "role", roles.toString(),
+                        "role", Arrays.toString(roles.toArray()),
                         "password", password
                 );
                 users.add(currentUser);

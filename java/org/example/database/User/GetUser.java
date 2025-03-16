@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class GetUser {
@@ -28,7 +29,7 @@ public class GetUser {
                 return Map.of(
                         "id", Integer.toString(id),
                         "name", name,
-                        "role", roles.toString()
+                        "role", Arrays.toString(roles.toArray())
                 );
             }
 
@@ -41,7 +42,7 @@ public class GetUser {
     }
 
     public static Map<String, String> getUser(String name) {
-        String sql = "SELECT id, name, role FROM user WHERE name = ?";
+        String sql = "SELECT id, name FROM user WHERE name = ?";
 
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -57,7 +58,7 @@ public class GetUser {
                 return Map.of(
                         "id", Integer.toString(id),
                         "name", name,
-                        "role", roles.toString()
+                        "role", Arrays.toString(roles.toArray())
                 );
             }
 
