@@ -3,6 +3,7 @@ package org.example.gateway;
 import org.example.database.User.GenerateInitialUserConfig;
 import org.example.login.Login;
 import org.example.notifications.Notifications;
+import org.example.delays.Delays;
 
 import java.util.*;
 
@@ -15,6 +16,7 @@ public class Gateway {
 
     public static void keepDatabasesToMemory() {
         Notifications.loadToMemory(); // Puxa as notificações para memória pra agilizar a utilização.
+        Delays.loadToMemory(); // Puxa as notificações para memória pra agilizar a utilização.
     }
 
     private static boolean validatePermission(String user, String target, Integer userRole, Integer targetRole) {
@@ -27,7 +29,6 @@ public class Gateway {
             } else return false;
         }
     }
-
     public static List<Map<String, String>> getNotificationsByUsername(String user, String target, Integer userRole, Integer targetRole) {
         List<Map<String, String>> userRoleNotifications = new ArrayList<>();
 
@@ -66,5 +67,41 @@ public class Gateway {
             serviceResponse.put("roles", new ArrayList<>());
         }
         return serviceResponse;
+    }
+
+    public static List<Map<String, String>> getDelaysByUsername(String username, String target, Integer userRole, Integer targetRole) {
+        List<Map<String, String>> userRoleDelays = new ArrayList<>();
+
+        if (username.equals(target)) {
+            userRoleDelays = Delays.getDelaysByUsername(username);
+        } else {
+            if (userRole == 2 && targetRole == 1) {
+                userRoleDelays = Delays.getDelaysByUsername(target);
+            } else {
+                Map<String, String> error = new HashMap<>();
+                error.put("ERROR", "User does not have permission to execute this command");
+                userRoleDelays.add(error);
+            }
+        }
+
+        return userRoleDelays;
+    }
+    public static Map<String, String> removeDelaysByUsernameAndTitle(String username, String target, Integer userRole, Integer targetrole, String title) {
+        Map<String, String> response = new HashMap<>();
+
+        if (username.equals(target)) {
+            Delays.removeDelaysByUsernameAndTitle(target, title);
+            response.put("SUCCESS", String.format("%s", title));
+
+        } else {
+            response.put("", "");
+            if ((userRole == 3 || userRole == 2) && targetrole == 1) {
+                Delays.removeDelaysByUsernameAndTitle(target, title);
+                response.put("SUCCESS", String.format("%s", title));
+            } else {
+                response.put("ERROR", "User does not have permission to execute this command");
+            }
+        }
+        return response;
     }
 }

@@ -1,6 +1,7 @@
 package org.example.display;
 
 import org.example.gateway.Gateway;
+import org.example.delays.Delays;
 import org.example.login.Login;
 import org.example.notifications.Notifications;
 import org.example.utilities.Utils;
@@ -29,8 +30,25 @@ public class UserDisplay {
     public static void removeNotification(String username, String target, UserTypes userRole, UserTypes targetRole, String messageTitle, String printRemoveNotificationsModel) {
         Map<String, String> response = Gateway.removeNotificationsByUsernameAndTitle(username, target, userRole.getId(), targetRole.getId(), messageTitle);
         String key = response.keySet().iterator().next();
-        Notifications.loadToMemory(); // Atualizar os dados em cache;
+        Delays.loadToMemory(); // Atualizar os dados em cache;
         System.out.printf(printRemoveNotificationsModel + "\n", key, response.get(key));
+    }
+
+    public static void displayDelays(String username, String target, UserTypes userRole, UserTypes targetRole, String printDelaysModel) {
+        List<Map<String, String>> targetDelays = Gateway.getDelaysByUsername(username, target, userRole.getId(), targetRole.getId());
+
+        for (Map<String, String> delay : targetDelays) {
+            String title = delay.entrySet().iterator().next().getKey();
+            System.out.printf(printDelaysModel + "\n", title, delay.get(title));
+        }
+        System.out.println();
+    }
+
+    public static void removeDelay(String username, String target, UserTypes userRole, UserTypes targetRole, String messageTitle, String printRemoveDelaysModel) {
+        Map<String, String> response = Gateway.removeDelaysByUsernameAndTitle(username, target, userRole.getId(), targetRole.getId(), messageTitle);
+        String key = response.keySet().iterator().next();
+        Delays.loadToMemory(); // Atualizar os dados em cache;
+        System.out.printf(printRemoveDelaysModel + "\n", key, response.get(key));
     }
 
     public void runInterface() {
@@ -92,8 +110,16 @@ public class UserDisplay {
                 """
                         Título: %s
                         Conteúdo: %s\s""";
+        String printDelaysModel =
+                """
+                        Título: %s
+                        Data limite: %s\s""";
         String insertMessageTitleText = "Insira o titulo da notificação: ";
         String printRemoveNotificationsModel =
+                """
+                        Resultado: %s
+                        Conteúdo: %s\s""";
+        String printRemoveDelaysModel =
                 """
                         Resultado: %s
                         Conteúdo: %s\s""";
@@ -149,6 +175,8 @@ public class UserDisplay {
                             messageTitle = Utils.inputString(scanner, insertMessageTitleText);
                             UserDisplay.removeNotification(username, username, role, role, messageTitle, printRemoveNotificationsModel);
                             break;
+                        case 5:
+                            UserDisplay.displayDelays(username, username, role, role, printRemoveDelaysModel);
                     }
                     break;
                 case LIBRARIAN:
@@ -163,8 +191,9 @@ public class UserDisplay {
                                     UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
                             break;
                         case 2:
-
                             break;
+                        case 5:
+                            UserDisplay.displayDelays(username, Utils.inputUser(scanner, targetInputText), role, UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printDelaysModel);
                     }
                     break;
                 case MANAGER:
