@@ -2,7 +2,6 @@ package org.example.display;
 
 import org.example.gateway.Gateway;
 import org.example.delays.Delays;
-import org.example.login.Login;
 import org.example.notifications.Notifications;
 import org.example.utilities.Utils;
 
@@ -13,7 +12,6 @@ import java.util.Scanner;
 
 public class UserDisplay {
     private boolean state = true;
-    private UserTypes userTypes = null;
 
     public UserDisplay() {}
 
@@ -30,12 +28,13 @@ public class UserDisplay {
     public static void removeNotification(String username, String target, UserTypes userRole, UserTypes targetRole, String messageTitle, String printRemoveNotificationsModel) {
         Map<String, String> response = Gateway.removeNotificationsByUsernameAndTitle(username, target, userRole.getId(), targetRole.getId(), messageTitle);
         String key = response.keySet().iterator().next();
-        Delays.loadToMemory(); // Atualizar os dados em cache;
+        Notifications.loadToMemory(); // Atualizar os dados em cache;
         System.out.printf(printRemoveNotificationsModel + "\n", key, response.get(key));
     }
 
     public static void displayDelays(String username, String target, UserTypes userRole, UserTypes targetRole, String printDelaysModel) {
         List<Map<String, String>> targetDelays = Gateway.getDelaysByUsername(username, target, userRole.getId(), targetRole.getId());
+        System.out.println();
 
         for (Map<String, String> delay : targetDelays) {
             String title = delay.entrySet().iterator().next().getKey();
@@ -74,7 +73,7 @@ public class UserDisplay {
         String passwordInputText =
                 "Insira a senha cadastrada: ";
         String loggedInText =
-                "Login efetuado com sucesso, logado como %s";
+                "Login efetuado com sucesso, logado como %s, bem-vindo usuário %s.";
         String readerFunctionsText =
                 """
                         Selecione uma das funções abaixo:
@@ -94,7 +93,8 @@ public class UserDisplay {
                         [3] - Emprestar livro.
                         [4] - Reservar livro.
                         [5] - Verificar pendências de usuários.
-                        [6] - Logout.
+                        [6] - Remover pendências de usuários.
+                        [7] - Logout.
                         Insira a sua escolha:\s""";
         String managerFunctionsText =
                 """
@@ -119,6 +119,10 @@ public class UserDisplay {
                 """
                         Resultado: %s
                         Conteúdo: %s\s""";
+        String printRemoveDelayModel =
+                """
+                        Resultado: %s
+                        Conteúdo: %s\s""";
         String printRemoveDelaysModel =
                 """
                         Resultado: %s
@@ -131,9 +135,16 @@ public class UserDisplay {
         int choiceFunction = 0;
         String username = "";
         String messageTitle = "";
+        String delayTitle = "";
         Map<String, String> loginRequestMessage = new HashMap<>();
         Map<String, Object> serverLoginResponse = new HashMap<>();
         List<Integer> userRoles = null;
+        Map<UserTypes, Integer> numberOfFunctions = new HashMap<>();
+
+        // Núemero de funções de cada tipo de usuário:
+        numberOfFunctions.put(UserTypes.READER, 7);
+        numberOfFunctions.put(UserTypes.LIBRARIAN, 7);
+        numberOfFunctions.put(UserTypes.MANAGER, 6);
 
         // Criar o banco dedados
         //Gateway.startDatabases();
@@ -160,14 +171,12 @@ public class UserDisplay {
         username = loginRequestMessage.get("name");
         UserTypes role = UserTypes.fromId(choice);
         System.out.println();
-        System.out.printf(loggedInText + "\n\n", role);
-
-        System.out.println(username);
+        System.out.printf(loggedInText + "\n\n", role, username);
 
         while (this.state) {
             switch (role) {
                 case READER:
-                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, readerFunctionsText, 1, 5);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, readerFunctionsText, 1, numberOfFunctions.get(role));
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
@@ -179,10 +188,11 @@ public class UserDisplay {
                             break;
                         case 5:
                             UserDisplay.displayDelays(username, username, role, role, printRemoveDelaysModel);
+                            break;
                     }
                     break;
                 case LIBRARIAN:
-                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, 5);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, librarianFunctionsText, 1, numberOfFunctions.get(role));
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
@@ -190,7 +200,8 @@ public class UserDisplay {
                                     username,
                                     Utils.inputUser(scanner, targetInputText),
                                     role,
-                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
+                                    printNotificationsModel);
                             break;
                         case 2:
                             messageTitle = Utils.inputString(scanner, insertMessageTitleText);
@@ -203,11 +214,27 @@ public class UserDisplay {
                                     printRemoveNotificationsModel);
                             break;
                         case 5:
-                            UserDisplay.displayDelays(username, Utils.inputUser(scanner, targetInputText), role, UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printDelaysModel);
+                            UserDisplay.displayDelays(
+                                    username,
+                                    Utils.inputUser(scanner, targetInputText),
+                                    role,
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
+                                    printDelaysModel);
+                            break;
+                        case 6:
+                            delayTitle = Utils.inputString(scanner, insertMessageTitleText);
+                            UserDisplay.removeDelay(
+                                    username,
+                                    Utils.inputUser(scanner, targetInputText),
+                                    role,
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
+                                    delayTitle,
+                                    printRemoveDelayModel);
+                            break;
                     }
                     break;
                 case MANAGER:
-                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, managerFunctionsText, 1, 4);
+                    choiceFunction = Utils.validateIfInputIsAnIntAndIsInARange(scanner, managerFunctionsText, 1, numberOfFunctions.get(role));
                     System.out.println();
                     switch (choiceFunction) {
                         case 1:
@@ -215,7 +242,8 @@ public class UserDisplay {
                                     username,
                                     Utils.inputUser(scanner, targetInputText),
                                     role,
-                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
+                                    printNotificationsModel);
                             break;
                         case 2:
                             messageTitle = Utils.inputString(scanner, insertMessageTitleText);
