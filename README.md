@@ -6,6 +6,7 @@ Repositório criado para armazenar o trabalho final da diciplina Programação I
 - Luiz Moreira
 
 **Link para o Slide:**
+Lorem Ipsum.com.br
 
 ## Requisitos do Projeto Final
 1. Realizar a elicitação e criação de um documento com os requisitos funcionais e não funcionais do programa.
