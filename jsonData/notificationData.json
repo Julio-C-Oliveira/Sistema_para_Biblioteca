@@ -78,9 +78,18 @@
       "Informação" : "Chegada de novos audiolivros anunciada."
     } ]
   },
+  "VIKTOR" : {
+    "1" : [ {
+      "Sugestão" : "Continue em busca da gloriosa evolução, THE GLORIOUS EVOLUTION"
+    } ]
+  },
   "AYAME" : {
     "1" : [ {
       "Sugestão" : "Reintegre a organização."
+    }, {
+      "Algo3" : "Lorem Ipsum."
+    }, {
+      "Algo4" : "Lorem Ipsum."
     } ]
   },
   "LARISSA" : {

@@ -4,12 +4,14 @@ import org.example.database.User.GenerateInitialUserConfig;
 import org.example.login.Login;
 import org.example.notifications.Notifications;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Gateway {
-    public static void startDatabases() {
-        GenerateInitialUserConfig initialUsers = new GenerateInitialUserConfig();
+    public static void startDatabases() throws IOException {
+        Notifications.createNotificationData();
 
+        GenerateInitialUserConfig initialUsers = new GenerateInitialUserConfig();
         initialUsers.generateInitialConfig();
     }
 

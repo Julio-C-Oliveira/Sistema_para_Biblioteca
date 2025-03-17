@@ -1,5 +1,6 @@
 package org.example.notifications;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,10 @@ public class Notifications {
     }
     public static void setNotificationsCache(Map<String, Map<String, List<Map<String, String>>>> notificationsCache) {
         Notifications.notificationsCache = notificationsCache;
+    }
+
+    public static void createNotificationData() throws IOException {
+        NotificationsDataManager.createNotificationData();
     }
 
     public static void loadToMemory() {

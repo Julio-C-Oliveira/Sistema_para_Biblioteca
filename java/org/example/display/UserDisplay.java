@@ -1,7 +1,6 @@
 package org.example.display;
 
 import org.example.gateway.Gateway;
-import org.example.login.Login;
 import org.example.notifications.Notifications;
 import org.example.utilities.Utils;
 
@@ -136,6 +135,8 @@ public class UserDisplay {
         System.out.println();
         System.out.printf(loggedInText + "\n\n", role);
 
+        System.out.println(username);
+
         while (this.state) {
             switch (role) {
                 case READER:
@@ -163,7 +164,14 @@ public class UserDisplay {
                                     UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
                             break;
                         case 2:
-
+                            messageTitle = Utils.inputString(scanner, insertMessageTitleText);
+                            UserDisplay.removeNotification(
+                                    username,
+                                    Utils.inputUser(scanner, targetInputText),
+                                    role,
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
+                                    messageTitle,
+                                    printRemoveNotificationsModel);
                             break;
                     }
                     break;
@@ -179,6 +187,14 @@ public class UserDisplay {
                                     UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])), printNotificationsModel);
                             break;
                         case 2:
+                            messageTitle = Utils.inputString(scanner, insertMessageTitleText);
+                            UserDisplay.removeNotification(
+                                    username,
+                                    Utils.inputUser(scanner, targetInputText),
+                                    role,
+                                    UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
+                                    messageTitle,
+                                    printRemoveNotificationsModel);
                             break;
                     }
                     break;
