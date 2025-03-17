@@ -12,13 +12,13 @@ Lorem Ipsum.com.br
 1. Realizar a elicitação e criação de um documento com os requisitos funcionais e não funcionais do programa.
 2. Modelar o programa por meio de diagramas UML. Pelo menos quatro diagramas UML devem constar no relatório, dentre eles, obrigatoriamente, o de casos de uso e de classes.
 3. O programa deve ter, no mínimo:
-	- [] Dez classes.
-	- [] Dois métodos estáticos.
-	- [] Duas váriaveis constantes.
+	- [x] Dez classes.
+	- [x] Dois métodos estáticos.
+	- [x] Duas váriaveis constantes.
 	- [] Dois métodos abstratos.
-	- [] Uma interface.
+	- [x] Uma interface.
 	- [] Uma estrutura de array simples e um arraylist.
-	- [] Um tipo enum.
+	- [x] Um tipo enum.
 	- [] Um tratamento de exceções.
 	- [] Um relacioanamento entre classes desenvolvidas (composição).
 	- [] Deve conter uma hierarquia de classes (herança).
