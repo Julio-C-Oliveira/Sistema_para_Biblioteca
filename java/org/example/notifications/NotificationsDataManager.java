@@ -168,7 +168,7 @@ public class NotificationsDataManager {
                         objectMapper.writeValue(file, users);
                         return "Notification successfully removed";
                     } else {
-                       return "Notification not found";
+                        return "Notification not found";
                     }
                 } else {
                     return "User type not found";

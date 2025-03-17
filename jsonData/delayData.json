@@ -1,0 +1,61 @@
+{
+  "KLEBER" : [
+    { "1984" : "01/01/2023" }
+  ],
+  "DANIELA" : [
+    { "O Grande Gatsby" : "05/03/2023" },
+    { "A Revolução dos Bichos" : "15/04/2023" }
+  ],
+  "IGOR" : [
+    { "Cem Anos de Solidão" : "10/04/2023" }
+  ],
+  "HELENA" : [
+    { "Orgulho e Preconceito" : "15/05/2023" },
+    { "O Morro dos Ventos Uivantes" : "20/06/2023" }
+  ],
+  "JULIANA" : [
+    { "Dom Quixote" : "20/06/2023" }
+  ],
+  "GABRIEL" : [
+    { "Crime e Castigo" : "25/07/2023" },
+    { "Os Irmãos Karamazov" : "30/08/2023" }
+  ],
+  "BRUNO" : [
+    { "A Revolução dos Bichos" : "30/08/2023" },
+    { "O Senhor das Moscas" : "05/09/2023" },
+    { "O Retrato de Dorian Gray" : "10/10/2023" }
+  ],
+  "FLAVINHODOPNEU" : [
+    { "O Senhor dos Anéis" : "01/09/2023" }
+  ],
+  "FERNANDA" : [
+    { "O Pequeno Príncipe" : "05/10/2023" },
+    { "A Menina que Roubava Livros" : "10/11/2023" }
+  ],
+  "NATALIAROMANOFF" : [
+    { "A Metamorfose" : "10/11/2023" }
+  ],
+  "CARLOS" : [
+    { "O Hobbit" : "15/12/2023" },
+    { "O Silmarillion" : "20/01/2024" }
+  ],
+  "ANA" : [
+    { "A Menina que Roubava Livros" : "20/01/2024" }
+  ],
+  "EDUARDO" : [
+    { "O Apanhador no Campo de Centeio" : "25/02/2024" },
+    { "O Sol é para Todos" : "28/03/2024" }
+  ],
+  "MARCOS" : [
+    { "O Nome do Vento" : "28/03/2024" }
+  ],
+  "AYAME" : [
+    { "A Biblioteca da Meia-Noite" : "01/04/2024" },
+    { "A Vida Invisível de Addie LaRue" : "05/05/2024" }
+  ],
+  "LARISSA" : [
+    { "O Sol é para Todos" : "05/05/2024" },
+    { "O Conto da Aia" : "10/06/2024" },
+    { "A Cor Púrpura" : "15/07/2024" }
+  ]
+}
