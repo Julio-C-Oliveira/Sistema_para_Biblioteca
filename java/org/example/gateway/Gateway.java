@@ -2,8 +2,8 @@ package org.example.gateway;
 
 import org.example.database.User.GenerateInitialUserConfig;
 import org.example.login.Login;
-import org.example.notifications.Notifications;
-import org.example.delays.Delays;
+import org.example.notices.Notifications;
+import org.example.notices.Delays;
 
 import java.io.IOException;
 import java.util.*;

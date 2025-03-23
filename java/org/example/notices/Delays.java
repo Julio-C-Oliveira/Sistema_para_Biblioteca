@@ -1,13 +1,9 @@
-package org.example.delays;
+package org.example.notices;
 
-import org.example.notifications.Notifications;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Delays {
+public class Delays implements Loadable{
     private static  Map<String, List<Map<String, String>>> delaysCache = null;
 
     public static Map<String, List<Map<String, String>>> getDelaysCache() {

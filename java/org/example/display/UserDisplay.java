@@ -1,8 +1,8 @@
 package org.example.display;
 
 import org.example.gateway.Gateway;
-import org.example.delays.Delays;
-import org.example.notifications.Notifications;
+import org.example.notices.Delays;
+import org.example.notices.Notifications;
 import org.example.utilities.Utils;
 
 import java.util.HashMap;

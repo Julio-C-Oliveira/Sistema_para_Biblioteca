@@ -1,4 +1,4 @@
-package org.example.delays;
+package org.example.notices;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

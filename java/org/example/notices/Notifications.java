@@ -1,4 +1,4 @@
-package org.example.notifications;
+package org.example.notices;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Notifications {
+public class Notifications implements Loadable {
     private static  Map<String, Map<String, List<Map<String, String>>>> notificationsCache = null;
 
     public static Map<String, Map<String, List<Map<String, String>>>> getNotificationsCache() {

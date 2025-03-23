@@ -1,4 +1,4 @@
-package org.example.notifications;
+package org.example.notices;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
