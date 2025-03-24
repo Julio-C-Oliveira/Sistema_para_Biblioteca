@@ -1,5 +1,9 @@
 package org.example.gateway;
 
+import org.example.database.Stock.DeleteBook;
+import org.example.database.Stock.GetBook;
+import org.example.database.Stock.InsertBook;
+import org.example.database.Stock.UpdateBook;
 import org.example.database.User.GenerateInitialUserConfig;
 import org.example.login.Login;
 import org.example.notifications.Notifications;
@@ -103,6 +107,80 @@ public class Gateway {
             } else {
                 response.put("ERROR", "User does not have permission to execute this command");
             }
+        }
+        return response;
+    }
+    public static Map<String, String> addCollection(int userRole, String title, String author, String published_at, int copies){
+        Map<String, String> response = new HashMap<>();
+        if (userRole != 3){
+            response.put("ERROR", "User does not have permission to execute this command");
+        }
+        InsertBook.create(title, author, published_at, copies);
+        response.put("SUCCESS", title + "have been added");
+        return response;
+    }
+    public static Map<String, String> removeCollectionByTitle(int userRole, String title){
+        Map<String, String> response = new HashMap<>();
+        if (userRole != 3){
+            response.put("ERROR", "User does not have permission to execute this command");
+        }
+        Map<String, String> book = GetBook.getBookByTitle(title);
+        int id = Integer.parseInt(book.get("id"));
+        DeleteBook.delete(id);
+        response.put("SUCCESS", title + "have been deleted");
+        return response;
+    }
+    public static Map<String, String> removeCollectionByAuthor(int userRole, String author){
+        Map<String, String> response = new HashMap<>();
+        if (userRole != 3){
+            response.put("ERROR", "User does not have permission to execute this command");
+        }
+        Map<String, String> book = GetBook.getBookByAuthor(author);
+        int id = Integer.parseInt(book.get("id"));
+        DeleteBook.delete(id);
+        response.put("SUCCESS", author + " works have been deleted");
+        return response;
+    }
+    public static Map<String, String> editCollection(int userRole, Scanner scan){
+        Map<String, String> response = new HashMap<>();
+        if (userRole != 3){
+            response.put("ERROR", "User does not have permission to execute this command");
+        }
+
+        int input = scan.nextInt();
+        String toEditString =
+                """
+                        Selecione o que pretende editar abaixo:
+                        [1] - Título.
+                        [2] - Autor.
+                        [3] - Ano de publicação.
+                        Insira a sua escolha:\s""";
+        System.out.print(toEditString);
+        String title;
+        switch (input){
+            case 1:
+                System.out.print("Título antigo: ");
+                title = scan.nextLine();
+                System.out.print("Título novo: ");
+                String newTitle = scan.nextLine();
+                UpdateBook.updateBookTitleByTitle(title, newTitle);
+                break;
+            case 2:
+                System.out.print("Título: ");
+                title = scan.nextLine();
+                System.out.print("Título novo: ");
+                String author = scan.nextLine();
+                UpdateBook.updateBookAuthorByTitle(title, author);
+                break;
+            case 3:
+                System.out.print("Título: ");
+                title = scan.nextLine();
+                System.out.print("Data de publicação: ");
+                String published_at = scan.nextLine();
+                UpdateBook.updateBookPublishedAtByTitle(title, published_at);
+                break;
+            default:
+                break;
         }
         return response;
     }

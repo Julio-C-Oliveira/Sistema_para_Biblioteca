@@ -1,5 +1,8 @@
 package org.example.display;
 
+import org.example.database.Stock.DeleteBook;
+import org.example.database.Stock.GetBook;
+import org.example.database.Stock.InsertBook;
 import org.example.gateway.Gateway;
 import org.example.delays.Delays;
 import org.example.notifications.Notifications;
@@ -48,6 +51,43 @@ public class UserDisplay {
         String key = response.keySet().iterator().next();
         Delays.loadToMemory(); // Atualizar os dados em cache;
         System.out.printf(printRemoveDelaysModel + "\n", key, response.get(key));
+    }
+
+    public static void addCollection(int userRole, Scanner scan){
+        System.out.print("Título: ");
+        String title = scan.nextLine();
+        System.out.print("Author: ");
+        String author = scan.nextLine();
+        System.out.print("Data de publicação: ");
+        String published_at = scan.nextLine();
+        System.out.print("Número de cópias: ");
+        int copies = scan.nextInt();
+
+        Map<String, String> response = Gateway.addCollection(userRole, title, author, published_at, copies);
+        String key = response.keySet().iterator().next();
+        System.out.println(response.get(key));
+    }
+
+    public static void removeCollectionByTitle(int userRole, Scanner scan){
+        System.out.print("Título: ");
+        String title = scan.nextLine();
+        Map<String, String> response = Gateway.removeCollectionByTitle(userRole, title);
+        String key = response.keySet().iterator().next();
+        System.out.println(response.get(key));
+    }
+
+    public static void removeCollectionByAuthor(int userRole, Scanner scan){
+        System.out.print("Autor: ");
+        String author = scan.nextLine();
+        Map<String, String> response = Gateway.removeCollectionByAuthor(userRole, author);
+        String key = response.keySet().iterator().next();
+        System.out.println(response.get(key));
+    }
+
+    public static void editCollection(int userRole, Scanner scan){
+        Map<String, String> response = Gateway.editCollection(userRole, scan);
+        String key = response.keySet().iterator().next();
+        System.out.println(response.get(key));
     }
 
     public void runInterface() {
@@ -102,9 +142,10 @@ public class UserDisplay {
                         [1] - Visualizar notificações.
                         [2] - Excluir notificação.
                         [3] - Adicionar coleção.
-                        [4] - Excluir coleção.
-                        [5] - Editar coleção.
-                        [6] - Logout.
+                        [4] - Excluir coleção por título.
+                        [5] - Excluir coleção por autor.
+                        [6] - Editar coleção.
+                        [7] - Logout.
                         Insira a sua escolha:\s""";
         String printNotificationsModel =
                 """
@@ -254,6 +295,18 @@ public class UserDisplay {
                                     UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
                                     messageTitle,
                                     printRemoveNotificationsModel);
+                            break;
+                        case 3:
+                            UserDisplay.addCollection(role.getId(), scanner);
+                            break;
+                        case 4:
+                            UserDisplay.removeCollectionByTitle(role.getId(), scanner);
+                            break;
+                        case 5:
+                            UserDisplay.removeCollectionByAuthor(role.getId(), scanner);
+                            break;
+                        case 6:
+                            UserDisplay.editCollection(role.getId(), scanner);
                             break;
                     }
                     break;
