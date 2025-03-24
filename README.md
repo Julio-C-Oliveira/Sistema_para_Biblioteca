@@ -17,10 +17,10 @@ Lorem Ipsum.com.br
 	- [x] Duas váriaveis constantes.
 	- [] Dois métodos abstratos.
 	- [x] Uma interface.
-	- [] Uma estrutura de array simples e um arraylist.
+	- [x] Uma estrutura de array simples e um arraylist.
 	- [x] Um tipo enum.
-	- [] Um tratamento de exceções.
-	- [] Um relacioanamento entre classes desenvolvidas (composição).
+	- [x] Um tratamento de exceções.
+	- [x] Um relacioanamento entre classes desenvolvidas (composição).
 	- [] Deve conter uma hierarquia de classes (herança).
 	- [] Deve conter polimorfismo.
 	- [] Uma implementação de um padrão de projeto de sua escolha (Singletown).
