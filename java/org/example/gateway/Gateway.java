@@ -12,6 +12,8 @@ import org.example.delays.Delays;
 import java.io.IOException;
 import java.util.*;
 
+import static org.example.utilities.Utils.validateDate;
+
 public class Gateway {
     public static void startDatabases() throws IOException {
         Notifications.createNotificationData();
@@ -147,40 +149,75 @@ public class Gateway {
             response.put("ERROR", "User does not have permission to execute this command");
         }
 
+        ArrayList<Map<String, String>> books = GetBook.getAllBooks();
+        for (Map<String, String> book:  books){
+            String showData = "ID: " + book.get("id") +
+                    " | Título: " + book.get("title") +
+                    " | Autor: " + book.get("author") +
+                    " | Data de publicação: " + book.get("published_at") +
+                    " | Cópias: " + book.get("copies");
+            System.out.println(showData);
+        }
+        System.out.println("Digite o ID da obra a ser alterada: ");
+        int id = scan.nextInt();
+        scan.nextLine(); // Limpar o buffer
+        Map<String, String> book = GetBook.getBookByID(id);
+
+        String previousTitle = book.get("title");
+        String previousAuthor = book.get("author");
+        int previousCopies = Integer.parseInt(book.get("copies"));
+        String previousPublishedAt = book.get("published_at");
+
+        String textEditChoice = """
+        O que se quer editar?:
+        [1] - Título errôneo.
+        [2] - Autor errôneo.
+        [3] - Data de publicação.
+        [4] - Adicionar número de cópias.
+        [5] - Subtrair número de cópias.
+        [6] - Cancelar.
+        Insira a sua escolha:\s""";
+
+        System.out.print(textEditChoice);
         int input = scan.nextInt();
-        String toEditString =
-                """
-                        Selecione o que pretende editar abaixo:
-                        [1] - Título.
-                        [2] - Autor.
-                        [3] - Ano de publicação.
-                        Insira a sua escolha:\s""";
-        System.out.print(toEditString);
-        String title;
-        switch (input){
+        scan.nextLine(); // Limpar o buffer
+
+        switch (input) {
             case 1:
-                System.out.print("Título antigo: ");
-                title = scan.nextLine();
                 System.out.print("Título novo: ");
                 String newTitle = scan.nextLine();
-                UpdateBook.updateBookTitleByTitle(title, newTitle);
+                UpdateBook.updateBookTitleByID(id, newTitle);
+                response.put("SUCCESS", previousTitle + " has been changed to " + newTitle);
                 break;
+
             case 2:
-                System.out.print("Título: ");
-                title = scan.nextLine();
-                System.out.print("Título novo: ");
+                System.out.print("Autor novo: ");
                 String author = scan.nextLine();
-                UpdateBook.updateBookAuthorByTitle(title, author);
+                UpdateBook.updateBookAuthorByID(id, author);
+                response.put("SUCCESS", previousAuthor + " has been changed to " + author);
                 break;
+
             case 3:
-                System.out.print("Título: ");
-                title = scan.nextLine();
-                System.out.print("Data de publicação: ");
-                String published_at = scan.nextLine();
-                UpdateBook.updateBookPublishedAtByTitle(title, published_at);
+                System.out.print("Nova data de publicação: ");
+                String publishedAt = scan.nextLine();
+                if(!validateDate(publishedAt)){
+                    response.put("FAILED", " put correct date");
+                    break;
+                }
+                UpdateBook.updateBookPublishedAtByID(id, publishedAt);
+                response.put("SUCCESS", previousPublishedAt + " has been changed to " + publishedAt);
+                break;
+
+            case 4:
+                UpdateBook.updateBookCopiesByID(id, previousCopies + 1);
+                response.put("SUCCESS", previousTitle + " copies(" + previousCopies + ") has been changed to " + (previousCopies + 1));
+                break;
+            case 5:
+                UpdateBook.updateBookCopiesByID(id, previousCopies - 1);
+                response.put("SUCCESS", previousTitle + " copies(" + previousCopies + ") has been changed to " + (previousCopies - 1));
                 break;
             default:
-                break;
+                response.put("FAILED", "canceled by default");
         }
         return response;
     }

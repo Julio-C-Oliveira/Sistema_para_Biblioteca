@@ -1,8 +1,6 @@
 package org.example.display;
 
-import org.example.database.Stock.DeleteBook;
-import org.example.database.Stock.GetBook;
-import org.example.database.Stock.InsertBook;
+
 import org.example.gateway.Gateway;
 import org.example.delays.Delays;
 import org.example.notifications.Notifications;
