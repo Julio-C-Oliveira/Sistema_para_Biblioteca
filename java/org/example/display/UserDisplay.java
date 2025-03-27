@@ -13,8 +13,17 @@ import java.util.Scanner;
 
 public class UserDisplay {
     private boolean state = true;
+    private static int numberOfInstances = 0;
 
-    public UserDisplay() {}
+    private UserDisplay() {}
+
+    public static UserDisplay getUserDisplay() {
+        if (UserDisplay.numberOfInstances == 0) {
+            UserDisplay.numberOfInstances++;
+            return new UserDisplay();
+        }
+        else return null;
+    }
 
     public static void displayNotifications(String username, String target, UserTypes userRole, UserTypes targetRole, String printNotificationsModel) {
         List<Map<String, String>> userRoleNotifications = Gateway.getNotificationsByUsername(username, target, userRole.getId(), targetRole.getId());
@@ -83,9 +92,21 @@ public class UserDisplay {
     }
 
     public static void editCollection(int userRole, Scanner scan){
-        Map<String, String> response = Gateway.editCollection(userRole, scan);
-        String key = response.keySet().iterator().next();
-        System.out.println(response.get(key));
+        Map<String, String> response = null;
+        String key;
+        switch (userRole){
+            case 2:
+                response = Gateway.editCollectionLibrary(userRole, scan);
+                key = response.keySet().iterator().next();
+                System.out.println(response.get(key));
+            case 3:
+                response = Gateway.editCollectionManager(userRole, scan);
+                key = response.keySet().iterator().next();
+                System.out.println(response.get(key));
+            default:
+                response.put("ERROR", "The role does not allow");
+                System.out.println(response.get("ERROR"));
+        }
     }
 
     public void runInterface() {
@@ -111,28 +132,24 @@ public class UserDisplay {
         String passwordInputText =
                 "Insira a senha cadastrada: ";
         String loggedInText =
-                "Login efetuado com sucesso, logado como %s, bem-vindo usuário %s.";
+                "Login efetuado com sucesso, logado como %s, bem-vindo(a) usuário(a) %s.";
         String readerFunctionsText =
                 """
                         Selecione uma das funções abaixo:
                         [1] - Visualizar notificações.
                         [2] - Excluir notificação.
-                        [3] - Verificar disponibilidade de livros.
-                        [4] - Visualizar resumos de livros.
-                        [5] - Visualizar pendências.
-                        [6] - Ver minha estante e prazos.
-                        [7] - Logout.
+                        [3] - Visualizar pendências.
+                        [4] - Logout.
                         Insira a sua escolha:\s""";
         String librarianFunctionsText =
                 """
                         Selecione uma das funções abaixo:
                         [1] - Visualizar notificações.
                         [2] - Excluir notificação.
-                        [3] - Emprestar livro.
-                        [4] - Reservar livro.
-                        [5] - Verificar pendências de usuários.
-                        [6] - Remover pendências de usuários.
-                        [7] - Logout.
+                        [3] - Emprestar livro ou Devolver.
+                        [4] - Verificar pendências de usuários.
+                        [5] - Remover pendências de usuários.
+                        [6] - Logout.
                         Insira a sua escolha:\s""";
         String managerFunctionsText =
                 """
@@ -180,10 +197,10 @@ public class UserDisplay {
         List<Integer> userRoles = null;
         Map<UserTypes, Integer> numberOfFunctions = new HashMap<>();
 
-        // Núemero de funções de cada tipo de usuário:
-        numberOfFunctions.put(UserTypes.READER, 7);
-        numberOfFunctions.put(UserTypes.LIBRARIAN, 7);
-        numberOfFunctions.put(UserTypes.MANAGER, 6);
+        // Número de funções de cada tipo de usuário:
+        numberOfFunctions.put(UserTypes.READER, 4);
+        numberOfFunctions.put(UserTypes.LIBRARIAN, 6);
+        numberOfFunctions.put(UserTypes.MANAGER, 7);
 
         // Criar o banco dedados
         //Gateway.startDatabases();
@@ -225,8 +242,21 @@ public class UserDisplay {
                             messageTitle = Utils.inputString(scanner, insertMessageTitleText);
                             UserDisplay.removeNotification(username, username, role, role, messageTitle, printRemoveNotificationsModel);
                             break;
-                        case 5:
-                            UserDisplay.displayDelays(username, username, role, role, printRemoveDelaysModel);
+                        case 3:
+                            UserDisplay.displayDelays(username, username, role, role, printDelaysModel);
+                            break;
+                        case 4:
+                            this.state = false;
+                            choice = 0;
+                            scanner = new Scanner(System.in);
+                            validTypes = UserTypes.getValidRange();
+                            choiceFunction = 0;
+                            username = "";
+                            messageTitle = "";
+                            delayTitle = "";
+                            loginRequestMessage = new HashMap<>();
+                            serverLoginResponse = new HashMap<>();
+                            numberOfFunctions = new HashMap<>();
                             break;
                     }
                     break;
@@ -252,7 +282,10 @@ public class UserDisplay {
                                     messageTitle,
                                     printRemoveNotificationsModel);
                             break;
-                        case 5:
+                        case 3:
+                            UserDisplay.editCollection(role.getId(), scanner);
+                            break;
+                        case 4:
                             UserDisplay.displayDelays(
                                     username,
                                     Utils.inputUser(scanner, targetInputText),
@@ -260,7 +293,7 @@ public class UserDisplay {
                                     UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
                                     printDelaysModel);
                             break;
-                        case 6:
+                        case 5:
                             delayTitle = Utils.inputString(scanner, insertMessageTitleText);
                             UserDisplay.removeDelay(
                                     username,
@@ -269,6 +302,19 @@ public class UserDisplay {
                                     UserTypes.fromId(Utils.validateIfInputIsAnIntAndIsInARange(scanner, textSelectTargetType, validTypes[0], validTypes[1])),
                                     delayTitle,
                                     printRemoveDelayModel);
+                            break;
+                        case 6:
+                            this.state = false;
+                            choice = 0;
+                            scanner = new Scanner(System.in);
+                            validTypes = UserTypes.getValidRange();
+                            choiceFunction = 0;
+                            username = "";
+                            messageTitle = "";
+                            delayTitle = "";
+                            loginRequestMessage = new HashMap<>();
+                            serverLoginResponse = new HashMap<>();
+                            numberOfFunctions = new HashMap<>();
                             break;
                     }
                     break;
@@ -305,6 +351,19 @@ public class UserDisplay {
                             break;
                         case 6:
                             UserDisplay.editCollection(role.getId(), scanner);
+                            break;
+                        case 7:
+                            this.state = false;
+                            choice = 0;
+                            scanner = new Scanner(System.in);
+                            validTypes = UserTypes.getValidRange();
+                            choiceFunction = 0;
+                            username = "";
+                            messageTitle = "";
+                            delayTitle = "";
+                            loginRequestMessage = new HashMap<>();
+                            serverLoginResponse = new HashMap<>();
+                            numberOfFunctions = new HashMap<>();
                             break;
                     }
                     break;

@@ -6,7 +6,7 @@ Repositório criado para armazenar o trabalho final da diciplina Programação I
 - Luiz Moreira
 
 **Link para o Slide:**
-Lorem Ipsum.com.br
+https://www.canva.com/design/DAGivPjsEjk/Y1pkZlACiEq4kmwBQKSETA/edit?utm_content=DAGivPjsEjk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ## Requisitos do Projeto Final
 1. Realizar a elicitação e criação de um documento com os requisitos funcionais e não funcionais do programa.
@@ -23,7 +23,7 @@ Lorem Ipsum.com.br
 	- [x] Um relacioanamento entre classes desenvolvidas (composição).
 	- [] Deve conter uma hierarquia de classes (herança).
 	- [] Deve conter polimorfismo.
-	- [] Uma implementação de um padrão de projeto de sua escolha (Singletown).
+	- [x] Uma implementação de um padrão de projeto de sua escolha (Singletown).
 
 ## O que deve ser Entregue
 1. Introdução
