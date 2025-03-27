@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class InsertBook {
     public static void create(String title, String author, String published_at, Integer copies){
-
         String sql = "INSERT INTO books(title, author, published_at, copies) VALUES(?,?,?,?)";
 
         try (var conn = DatabaseConnection.connect();

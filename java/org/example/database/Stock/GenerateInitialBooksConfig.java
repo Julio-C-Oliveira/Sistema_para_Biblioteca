@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GenerateInitialBooksConfig {
-    private final ArrayList<Map<String, String>> booksToAdd = new ArrayList<>();
-    private final List<String> titles = List.of(
+    private  final ArrayList<Map<String, String>> booksToAdd = new ArrayList<>();
+    private  final List<String> titles = List.of(
             "1984",
             "O Grande Gatsby",
             "A Revolução dos Bichos",
@@ -33,7 +33,7 @@ public class GenerateInitialBooksConfig {
             "A Cor Púrpura"
     );
 
-    private boolean checkInitConfig(){
+    private  boolean checkInitConfig(){
         ArrayList<Map<String, String>> usersFromDB = GetBook.getAllBooks();
         assert usersFromDB != null;
         if (usersFromDB.isEmpty())
@@ -46,7 +46,7 @@ public class GenerateInitialBooksConfig {
         }
         return false;
     }
-    public void generateInitialConfig(){
+    public  void generateInitialConfig(){
         CreateBookTable.createTable();
         System.out.println();
 

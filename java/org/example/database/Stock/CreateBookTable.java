@@ -9,8 +9,8 @@ import java.sql.Statement;
 public class CreateBookTable {
     public static void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS books (" +
-                " id INTEGER," +
-                " title INTEGER UNIQUE," +
+                " id INTEGER PRIMARY KEY," +
+                " title TEXT UNIQUE," +
                 " author TEXT," +
                 "published_at TEXT," +
                 "copies INTEGER" +

@@ -4,6 +4,7 @@ import org.example.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -12,12 +13,17 @@ public class UpdateBook {
     public static void updateBookTitleByID(int id, String newTitle) {
         String sql = "UPDATE books SET title = ? WHERE id = ?";
 
-        try (Connection conn = DatabaseConnection.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, newTitle);
-            pstmt.setInt(2, id);
-            pstmt.executeUpdate();
-
+        try (Connection conn = DatabaseConnection.connect()) {
+            conn.setAutoCommit(false); // Start transaction
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, newTitle);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                conn.commit(); // Commit transaction
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback on error
+                System.err.println(e.getMessage());
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

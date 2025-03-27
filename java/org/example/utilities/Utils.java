@@ -1,6 +1,9 @@
 package org.example.utilities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -79,5 +82,30 @@ public class Utils {
 
     public static List<Integer> arrayInStringToArray(String arrayInString) {
         return Arrays.stream(arrayInString.replaceAll("[\\[\\]]", "").replaceAll(" ", "").split(",")).map(Integer::parseInt).collect(Collectors.toList());
+    }
+    public static boolean validateDate(String data) {
+        // Verifica se a string está no formato básico esperado
+        if (data == null || !data.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            return false;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); // Isso faz com que a validação seja rigorosa
+
+        try {
+            // Tenta fazer o parse da data
+            Date dataParseada = sdf.parse(data);
+
+            // Verificação adicional para garantir que o formato está exato
+            // Isso evita que "1/1/2023" seja considerado válido quando formatado como "01/01/2023"
+            String dataFormatada = sdf.format(dataParseada);
+            if (!data.equals(dataFormatada)) {
+                return false;
+            }
+
+            return true;
+        } catch (ParseException ex) {
+            return false;
+        }
     }
 }
